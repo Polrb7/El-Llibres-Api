@@ -249,8 +249,8 @@ class UserController extends Controller
             $user = User::findOrFail($id);
 
             $validator = Validator::make($request->all(), [
-                'username' => 'string|max:255|unique:users,username,',
-                'email' => 'email|unique:users,email,',
+                'username' => 'string|max:255|:users,username,',
+                'email' => 'email|:users,email,',
                 'password' => 'confirmed|string',
                 'profile_img' => 'string',
                 'admin' => 'boolean'
