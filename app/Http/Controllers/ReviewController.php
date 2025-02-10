@@ -255,6 +255,51 @@ class ReviewController extends Controller
     }
 
     /**
+     * Display reviews by a specific user.
+     * 
+     * @OA\Get(
+     *     path="/api/users/{user_id}/reviews",
+     *     tags={"Reviews"},
+     *     summary="Retrieve reviews by a specific user",
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="A list of reviews by a specific user",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Review")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     )
+     * )
+     */
+    public function getReviewsByUserId(string $user_id)
+    {
+        try {
+            $reviews = Review::where('user_id', $user_id)->get();
+            return response()->json([
+                'status' => true,
+                'reviews' => $reviews,
+                'httpCode' => 200
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+                'httpCode' => 500
+            ]);
+        }
+    }
+
+    /**
      * Update the specified review in storage.
      * 
      * @OA\Put(

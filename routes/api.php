@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Reviews
     Route::apiResource('reviews', ReviewController::class);
     Route::get('/books/{book}/reviews', [ReviewController::class, 'showReviewsInBook']);
+    Route::get('/users/{user}/reviews', [ReviewController::class, 'getReviewsByUserId']);
 
     // Comments
     Route::apiResource('comments', CommentController::class);
